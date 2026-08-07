@@ -1,5 +1,6 @@
 import React from 'react'
 import { Building2, GraduationCap, HeartPulse, MapPinned, PackageCheck, Users, ExternalLink } from 'lucide-react'
+import { useScrollAnimationMultiple } from '../hooks/useScrollAnimation'
 
 const projectLinks = {
   'TNFD': 'https://tnfd.devops-in22labs.com/',
@@ -83,6 +84,8 @@ const colors = {
 }
 
 export default function Projects() {
+  const [addCardRef, visibleCards] = useScrollAnimationMultiple()
+
   return (
     <section id="projects" style={{
       padding: '100px 40px', background: 'var(--bg-surface)',
@@ -115,25 +118,35 @@ export default function Projects() {
         </p>
 
         <div className="project-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(310px, 1fr))', gap: '22px' }}>
-          {projects.map((project) => {
+          {projects.map((project, index) => {
             const tone = colors[project.color]
             const Icon = project.icon
+            const isVisible = visibleCards.has(index)
             return (
               <article
                 key={project.title}
+                ref={addCardRef(index)}
+                data-index={index}
                 style={{
                   background: 'var(--bg-card)', border: '1px solid var(--border-subtle)',
                   borderRadius: '8px', padding: '22px',
                   transition: 'all var(--transition-med)',
                   display: 'flex', flexDirection: 'column', minHeight: '100%',
+                  opacity: isVisible ? 1 : 0,
+                  transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
+                  backdropFilter: 'blur(10px)',
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = tone.border
-                  e.currentTarget.style.transform = 'translateY(-4px)'
+                  e.currentTarget.style.transform = 'translateY(-8px) scale(1.02)'
+                  e.currentTarget.style.boxShadow = `0 20px 50px ${tone.glow}, 0 0 30px ${tone.glow}`
+                  e.currentTarget.style.background = `rgba(28, 24, 56, 0.9)`
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.borderColor = 'var(--border-subtle)'
-                  e.currentTarget.style.transform = 'translateY(0)'
+                  e.currentTarget.style.transform = 'translateY(0) scale(1)'
+                  e.currentTarget.style.boxShadow = 'none'
+                  e.currentTarget.style.background = 'var(--bg-card)'
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '18px', gap: '12px' }}>
@@ -185,6 +198,17 @@ export default function Projects() {
                         padding: '5px 9px', borderRadius: '999px', fontSize: '12px',
                         border: '1px solid var(--border-subtle)',
                         color: 'var(--text-secondary)', background: 'var(--bg-elevated)',
+                        transition: 'all 0.2s ease',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'scale(1.1)'
+                        e.currentTarget.style.borderColor = tone.border
+                        e.currentTarget.style.color = tone.text
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'scale(1)'
+                        e.currentTarget.style.borderColor = 'var(--border-subtle)'
+                        e.currentTarget.style.color = 'var(--text-secondary)'
                       }}
                     >
                       {tech}
@@ -202,6 +226,17 @@ export default function Projects() {
                     fontSize: '14px', fontWeight: 700, border: `1px solid ${tone.border}`,
                     display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
                     textDecoration: 'none',
+                    transition: 'all 0.3s ease',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = tone.text
+                    e.currentTarget.style.color = 'var(--bg-void)'
+                    e.currentTarget.style.transform = 'translateY(-2px)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'rgba(255,255,255,0.035)'
+                    e.currentTarget.style.color = tone.text
+                    e.currentTarget.style.transform = 'translateY(0)'
                   }}
                 >
                   <ExternalLink style={{ width: '16px', height: '16px' }} />

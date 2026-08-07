@@ -1,5 +1,6 @@
 import React from 'react'
 import { Code2, Database, Globe2, Server, ShieldCheck, ShoppingCart, RadioTower, Bot, GitBranch } from 'lucide-react'
+import { useScrollAnimationMultiple } from '../hooks/useScrollAnimation'
 
 const skillCategories = [
   {
@@ -70,6 +71,8 @@ const colors = {
 }
 
 export default function Skills() {
+  const [addCardRef, visibleCards] = useScrollAnimationMultiple()
+
   return (
     <section id="skills" style={{
       padding: '100px 40px', background: 'var(--bg-surface)',
@@ -102,26 +105,34 @@ export default function Skills() {
         </p>
 
         <div className="skills-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '18px' }}>
-          {skillCategories.map((category) => {
+          {skillCategories.map((category, index) => {
             const tone = colors[category.color]
             const Icon = category.icon
+            const isVisible = visibleCards.has(index)
             return (
               <article
                 key={category.title}
+                ref={addCardRef(index)}
+                data-index={index}
                 style={{
                   background: 'var(--bg-card)', border: '1px solid var(--border-subtle)',
                   borderRadius: '8px', padding: '20px', position: 'relative',
                   transition: 'all 0.28s ease', overflow: 'hidden',
+                  opacity: isVisible ? 1 : 0,
+                  transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
+                  backdropFilter: 'blur(10px)',
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = tone.border
-                  e.currentTarget.style.transform = 'translateY(-5px)'
-                  e.currentTarget.style.boxShadow = `0 18px 38px ${tone.glow}`
+                  e.currentTarget.style.transform = 'translateY(-8px) scale(1.02)'
+                  e.currentTarget.style.boxShadow = `0 20px 50px ${tone.glow}, 0 0 30px ${tone.glow}`
+                  e.currentTarget.style.background = `rgba(28, 24, 56, 0.9)`
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.borderColor = 'var(--border-subtle)'
-                  e.currentTarget.style.transform = 'translateY(0)'
+                  e.currentTarget.style.transform = 'translateY(0) scale(1)'
                   e.currentTarget.style.boxShadow = 'none'
+                  e.currentTarget.style.background = 'var(--bg-card)'
                 }}
               >
                 <div style={{
@@ -151,6 +162,17 @@ export default function Skills() {
                         padding: '6px 9px', borderRadius: '999px', fontSize: '12px',
                         fontWeight: 600, border: `1px solid ${tone.border}`,
                         color: tone.text, background: tone.bg,
+                        transition: 'all 0.2s ease',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'scale(1.1)'
+                        e.currentTarget.style.background = tone.text
+                        e.currentTarget.style.color = 'var(--bg-void)'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'scale(1)'
+                        e.currentTarget.style.background = tone.bg
+                        e.currentTarget.style.color = tone.text
                       }}
                     >
                       {skill}

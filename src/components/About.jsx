@@ -1,4 +1,6 @@
 import { CheckCircle2 } from 'lucide-react'
+import { useScrollAnimation, useScrollAnimationMultiple } from '../hooks/useScrollAnimation'
+import reshanthImage from '../assets/Reshanth.jpg'
 
 const stats = [
   { value: '3', label: 'Years Experience' },
@@ -15,6 +17,10 @@ const ownershipPoints = [
 ]
 
 export default function About() {
+  const [leftRef, leftVisible] = useScrollAnimation()
+  const [rightRef, rightVisible] = useScrollAnimation()
+  const [addStatRef, visibleStats] = useScrollAnimationMultiple()
+
   return (
     <section id="about" style={{
       padding: '100px 40px', maxWidth: '1100px', margin: '0 auto',
@@ -32,21 +38,28 @@ export default function About() {
         display: 'grid', gridTemplateColumns: '0.9fr 1.1fr',
         gap: '72px', alignItems: 'center',
       }} className="about-grid">
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '28px', animation: 'slideInLeft 0.7s ease both' }}>
+        <div ref={leftRef} style={{ display: 'flex', flexDirection: 'column', gap: '28px', opacity: leftVisible ? 1 : 0, transform: leftVisible ? 'translateX(0)' : 'translateX(-40px)', transition: 'all 0.7s ease' }}>
           <div style={{ position: 'relative', width: 'fit-content' }}>
             <div style={{
               width: '220px', height: '220px', borderRadius: '8px',
               background: 'linear-gradient(145deg, rgba(45,212,191,0.18), rgba(139,92,246,0.18))',
               border: '1px solid rgba(255,255,255,0.1)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: '76px', fontFamily: 'var(--font-display)', fontWeight: 800,
               position: 'relative', overflow: 'hidden',
               boxShadow: '0 28px 70px rgba(0,0,0,0.32)',
-            }}>
-              <span style={{
-                background: 'linear-gradient(135deg, var(--cyan-300), var(--purple-300))',
-                WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-              }}>RA</span>
+              transition: 'transform 0.3s ease',
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05) rotate(2deg)'}
+            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1) rotate(0deg)'}
+            >
+              <img
+                src={reshanthImage}
+                alt="Reshanth Arumugam"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                }}
+              />
             </div>
             <div style={{
               position: 'absolute', bottom: '-12px', right: '-12px',
@@ -60,11 +73,20 @@ export default function About() {
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px' }}>
-            {stats.map((s) => (
-              <div key={s.label} style={{
-                padding: '18px', borderRadius: '8px',
-                background: 'var(--bg-card)', border: '1px solid var(--border-subtle)',
-              }}>
+            {stats.map((s, index) => (
+              <div
+                key={s.label}
+                ref={addStatRef(index)}
+                data-index={index}
+                style={{
+                  padding: '18px', borderRadius: '8px',
+                  background: 'var(--bg-card)', border: '1px solid var(--border-subtle)',
+                  opacity: visibleStats.has(index) ? 1 : 0,
+                  transform: visibleStats.has(index) ? 'translateY(0)' : 'translateY(20px)',
+                  transition: 'all 0.5s ease',
+                  transitionDelay: `${index * 0.1}s`,
+                }}
+              >
                 <div style={{
                   fontFamily: 'var(--font-display)', fontWeight: 800,
                   fontSize: '30px', letterSpacing: '0',
@@ -78,7 +100,7 @@ export default function About() {
           </div>
         </div>
 
-        <div style={{ animation: 'fadeInUp 0.7s ease 0.2s both' }}>
+        <div ref={rightRef} style={{ opacity: rightVisible ? 1 : 0, transform: rightVisible ? 'translateY(0)' : 'translateY(40px)', transition: 'all 0.7s ease 0.2s' }}>
           <h2 style={{
             fontFamily: 'var(--font-display)', fontWeight: 700,
             fontSize: 'clamp(28px, 4vw, 42px)', lineHeight: 1.12,
@@ -107,12 +129,19 @@ export default function About() {
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }} className="ownership-grid">
-            {ownershipPoints.map((point) => (
-              <div key={point} style={{
-                display: 'flex', gap: '10px', alignItems: 'flex-start',
-                padding: '12px', borderRadius: '8px',
-                background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-subtle)',
-              }}>
+            {ownershipPoints.map((point, index) => (
+              <div
+                key={point}
+                style={{
+                  display: 'flex', gap: '10px', alignItems: 'flex-start',
+                  padding: '12px', borderRadius: '8px',
+                  background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-subtle)',
+                  opacity: rightVisible ? 1 : 0,
+                  transform: rightVisible ? 'translateY(0)' : 'translateY(20px)',
+                  transition: 'all 0.5s ease',
+                  transitionDelay: `${(index + 2) * 0.1}s`,
+                }}
+              >
                 <CheckCircle2 style={{ width: '18px', height: '18px', color: 'var(--cyan-300)', flexShrink: 0, marginTop: '2px' }} />
                 <span style={{ color: 'var(--text-secondary)', fontSize: '13px', lineHeight: 1.5 }}>{point}</span>
               </div>

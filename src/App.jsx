@@ -7,10 +7,12 @@ import Projects from './components/Projects';
 import Education from './components/Education';
 import Skills from './components/Skills';
 import Contact from './components/Contact';
+import ScrollProgress from './components/ScrollProgress';
 
 function App() {
   return (
     <div className="min-h-screen">
+      <ScrollProgress />
       <Navbar />
       <Hero />
       <About />

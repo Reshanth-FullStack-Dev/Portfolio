@@ -1,3 +1,5 @@
+import { useScrollAnimation } from '../hooks/useScrollAnimation'
+
 const experience = [
   {
     role: 'Software Engineer - Full Stack Developer',
@@ -52,6 +54,9 @@ const professionalSkills = [
 ]
 
 export default function Experience() {
+  const [leftRef, leftVisible] = useScrollAnimation()
+  const [rightRef, rightVisible] = useScrollAnimation()
+
   return (
     <section id="experience" style={{
       padding: '100px 40px', background: 'var(--bg-deep)',
@@ -93,7 +98,7 @@ export default function Experience() {
         </p>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '40px' }} className="exp-grid">
-          <div>
+          <div ref={leftRef} style={{ opacity: leftVisible ? 1 : 0, transform: leftVisible ? 'translateX(0)' : 'translateX(-40px)', transition: 'all 0.7s ease' }}>
             {experience.map((exp) => (
               <div key={exp.company} style={{ position: 'relative', paddingLeft: '28px' }}>
                 <div style={{
@@ -105,12 +110,23 @@ export default function Experience() {
                   width: '11px', height: '11px', borderRadius: '50%',
                   background: 'var(--cyan-500)', border: '2px solid var(--cyan-300)',
                   boxShadow: '0 0 16px rgba(45,212,191,0.55)',
+                  animation: 'pulseGlow 2s ease-in-out infinite',
                 }} />
 
                 <div style={{
                   background: 'var(--bg-card)', border: '1px solid var(--border-subtle)',
                   borderRadius: '8px', padding: '24px',
-                }}>
+                  transition: 'all 0.3s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--border-medium)'
+                  e.currentTarget.style.transform = 'translateX(4px)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--border-subtle)'
+                  e.currentTarget.style.transform = 'translateX(0)'
+                }}
+                >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '14px', flexWrap: 'wrap', gap: '10px' }}>
                     <div>
                       <h3 style={{
@@ -138,7 +154,17 @@ export default function Experience() {
                       <article key={project.name} style={{
                         padding: '16px', borderRadius: '8px',
                         background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)',
-                      }}>
+                        transition: 'all 0.3s ease',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = 'rgba(255,255,255,0.06)'
+                        e.currentTarget.style.borderColor = 'var(--border-medium)'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'rgba(255,255,255,0.03)'
+                        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)'
+                      }}
+                      >
                         <div style={{ display: 'flex', justifyContent: 'space-between', gap: '12px', flexWrap: 'wrap', marginBottom: '8px' }}>
                           <h4 style={{ fontSize: '15px', color: 'var(--text-primary)', fontWeight: 700 }}>
                             {project.name}
@@ -166,12 +192,22 @@ export default function Experience() {
             ))}
           </div>
 
-          <div>
+          <div ref={rightRef} style={{ opacity: rightVisible ? 1 : 0, transform: rightVisible ? 'translateX(0)' : 'translateX(40px)', transition: 'all 0.7s ease 0.2s' }}>
             {education.map((edu) => (
               <div key={edu.degree} style={{
                 background: 'var(--bg-card)', border: '1px solid var(--border-subtle)',
                 borderRadius: '8px', padding: '24px', marginBottom: '20px',
-              }}>
+                transition: 'all 0.3s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = 'var(--border-medium)'
+                e.currentTarget.style.transform = 'translateY(-4px)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = 'var(--border-subtle)'
+                e.currentTarget.style.transform = 'translateY(0)'
+              }}
+              >
                 <h3 style={{
                   fontFamily: 'var(--font-display)', fontSize: '18px', fontWeight: 700,
                   color: 'var(--text-primary)', marginBottom: '8px',
@@ -196,7 +232,17 @@ export default function Experience() {
             <div style={{
               background: 'var(--bg-card)', border: '1px solid var(--border-subtle)',
               borderRadius: '8px', padding: '24px',
-            }}>
+              transition: 'all 0.3s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = 'var(--border-medium)'
+              e.currentTarget.style.transform = 'translateY(-4px)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = 'var(--border-subtle)'
+              e.currentTarget.style.transform = 'translateY(0)'
+            }}
+            >
               <h3 style={{
                 fontFamily: 'var(--font-display)', fontSize: '18px', fontWeight: 700,
                 color: 'var(--text-primary)', marginBottom: '16px',
@@ -207,7 +253,19 @@ export default function Experience() {
                     fontSize: '12px', padding: '6px 11px', borderRadius: '999px',
                     border: '1px solid var(--border-subtle)', color: 'var(--text-secondary)',
                     background: 'var(--bg-elevated)',
-                  }}>{skill}</span>
+                    transition: 'all 0.2s ease',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = 'var(--purple-500)'
+                    e.currentTarget.style.color = 'var(--purple-300)'
+                    e.currentTarget.style.background = 'rgba(139,92,246,0.1)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = 'var(--border-subtle)'
+                    e.currentTarget.style.color = 'var(--text-secondary)'
+                    e.currentTarget.style.background = 'var(--bg-elevated)'
+                  }}
+                  >{skill}</span>
                 ))}
               </div>
             </div>

@@ -1,7 +1,14 @@
-import React from 'react';
-import { Mail, Phone, ExternalLink, Send } from 'lucide-react';
+import React, { useState } from 'react';
+import { Mail, Phone, ExternalLink, Send, CheckCircle2, AlertCircle } from 'lucide-react';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import emailjs from '@emailjs/browser';
 
 const Contact = () => {
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' })
+  const [formStatus, setFormStatus] = useState('idle') // idle, submitting, success, error
+  const [errors, setErrors] = useState({})
+  const [sectionRef, sectionVisible] = useScrollAnimation()
+
   const contactInfo = [
     {
       icon: <Phone className="w-5 h-5" />,
@@ -23,10 +30,65 @@ const Contact = () => {
     }
   ];
 
+  const validateForm = () => {
+    const newErrors = {}
+    if (!formData.name.trim()) newErrors.name = 'Name is required'
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required'
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Email is invalid'
+    }
+    if (!formData.message.trim()) newErrors.message = 'Message is required'
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if (!validateForm()) return
+
+    setFormStatus('submitting')
+
+    // EmailJS configuration from environment variables
+    const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID
+    const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
+    const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+
+    const templateParams = {
+      name: formData.name,
+      email: formData.email,
+      message: formData.message,
+      time: new Date().toLocaleString()
+    }
+
+    emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY)
+      .then((result) => {
+        console.log('Email sent successfully:', result.text)
+        setFormStatus('success')
+        setFormData({ name: '', email: '', message: '' })
+        setTimeout(() => setFormStatus('idle'), 3000)
+      })
+      .catch((error) => {
+        console.error('Email send error:', error.text)
+        setFormStatus('error')
+        setTimeout(() => setFormStatus('idle'), 3000)
+      })
+  }
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+    if (errors[e.target.name]) {
+      setErrors({ ...errors, [e.target.name]: '' })
+    }
+  }
+
   return (
-    <section id="contact" style={{
+    <section id="contact" ref={sectionRef} style={{
       padding: '100px 40px', background: 'var(--bg-void)',
       position: 'relative',
+      opacity: sectionVisible ? 1 : 0,
+      transform: sectionVisible ? 'translateY(0)' : 'translateY(40px)',
+      transition: 'all 0.7s ease',
     }}>
       <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
         <div style={{ marginBottom: '60px', display: 'flex', alignItems: 'center', gap: '16px' }}>
@@ -136,7 +198,7 @@ const Contact = () => {
               fontFamily: 'var(--font-display)', fontSize: '20px', fontWeight: 600,
               color: 'var(--text-primary)', marginBottom: '24px',
             }}>Send a Message</h3>
-            <form style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <div>
                 <label htmlFor="name" style={{
                   display: 'block', fontSize: '14px', fontWeight: 500,
@@ -148,22 +210,30 @@ const Contact = () => {
                   type="text"
                   id="name"
                   name="name"
+                  value={formData.name}
+                  onChange={handleChange}
                   style={{
-                    width: '100%', padding: '12px 16px', border: '1px solid var(--border-medium)',
+                    width: '100%', padding: '12px 16px', border: `1px solid ${errors.name ? 'var(--pink-500)' : 'var(--border-medium)'}`,
                     borderRadius: '8px', fontSize: '16px', outline: 'none',
                     background: 'var(--bg-elevated)', color: 'var(--text-primary)',
                     transition: 'all var(--transition-med)',
                   }}
                   onFocus={e => {
-                    e.currentTarget.style.borderColor = 'var(--purple-500)'
-                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(139, 92, 246, 0.2)'
+                    e.currentTarget.style.borderColor = errors.name ? 'var(--pink-500)' : 'var(--purple-500)'
+                    e.currentTarget.style.boxShadow = `0 0 0 3px ${errors.name ? 'rgba(236, 72, 153, 0.2)' : 'rgba(139, 92, 246, 0.2)'}`
                   }}
                   onBlur={e => {
-                    e.currentTarget.style.borderColor = 'var(--border-medium)'
+                    e.currentTarget.style.borderColor = errors.name ? 'var(--pink-500)' : 'var(--border-medium)'
                     e.currentTarget.style.boxShadow = 'none'
                   }}
                   placeholder="Your Name"
                 />
+                {errors.name && (
+                  <p style={{ fontSize: '12px', color: 'var(--pink-500)', marginTop: '4px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <AlertCircle style={{ width: '14px', height: '14px' }} />
+                    {errors.name}
+                  </p>
+                )}
               </div>
               <div>
                 <label htmlFor="email" style={{
@@ -176,22 +246,30 @@ const Contact = () => {
                   type="email"
                   id="email"
                   name="email"
+                  value={formData.email}
+                  onChange={handleChange}
                   style={{
-                    width: '100%', padding: '12px 16px', border: '1px solid var(--border-medium)',
+                    width: '100%', padding: '12px 16px', border: `1px solid ${errors.email ? 'var(--pink-500)' : 'var(--border-medium)'}`,
                     borderRadius: '8px', fontSize: '16px', outline: 'none',
                     background: 'var(--bg-elevated)', color: 'var(--text-primary)',
                     transition: 'all var(--transition-med)',
                   }}
                   onFocus={e => {
-                    e.currentTarget.style.borderColor = 'var(--purple-500)'
-                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(139, 92, 246, 0.2)'
+                    e.currentTarget.style.borderColor = errors.email ? 'var(--pink-500)' : 'var(--purple-500)'
+                    e.currentTarget.style.boxShadow = `0 0 0 3px ${errors.email ? 'rgba(236, 72, 153, 0.2)' : 'rgba(139, 92, 246, 0.2)'}`
                   }}
                   onBlur={e => {
-                    e.currentTarget.style.borderColor = 'var(--border-medium)'
+                    e.currentTarget.style.borderColor = errors.email ? 'var(--pink-500)' : 'var(--border-medium)'
                     e.currentTarget.style.boxShadow = 'none'
                   }}
                   placeholder="your.email@example.com"
                 />
+                {errors.email && (
+                  <p style={{ fontSize: '12px', color: 'var(--pink-500)', marginTop: '4px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <AlertCircle style={{ width: '14px', height: '14px' }} />
+                    {errors.email}
+                  </p>
+                )}
               </div>
               <div>
                 <label htmlFor="message" style={{
@@ -203,46 +281,83 @@ const Contact = () => {
                 <textarea
                   id="message"
                   name="message"
+                  value={formData.message}
+                  onChange={handleChange}
                   rows={4}
                   style={{
-                    width: '100%', padding: '12px 16px', border: '1px solid var(--border-medium)',
+                    width: '100%', padding: '12px 16px', border: `1px solid ${errors.message ? 'var(--pink-500)' : 'var(--border-medium)'}`,
                     borderRadius: '8px', fontSize: '16px', outline: 'none', resize: 'none',
                     background: 'var(--bg-elevated)', color: 'var(--text-primary)',
                     transition: 'all var(--transition-med)',
                   }}
                   onFocus={e => {
-                    e.currentTarget.style.borderColor = 'var(--purple-500)'
-                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(139, 92, 246, 0.2)'
+                    e.currentTarget.style.borderColor = errors.message ? 'var(--pink-500)' : 'var(--purple-500)'
+                    e.currentTarget.style.boxShadow = `0 0 0 3px ${errors.message ? 'rgba(236, 72, 153, 0.2)' : 'rgba(139, 92, 246, 0.2)'}`
                   }}
                   onBlur={e => {
-                    e.currentTarget.style.borderColor = 'var(--border-medium)'
+                    e.currentTarget.style.borderColor = errors.message ? 'var(--pink-500)' : 'var(--border-medium)'
                     e.currentTarget.style.boxShadow = 'none'
                   }}
                   placeholder="Your message here..."
                 ></textarea>
+                {errors.message && (
+                  <p style={{ fontSize: '12px', color: 'var(--pink-500)', marginTop: '4px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <AlertCircle style={{ width: '14px', height: '14px' }} />
+                    {errors.message}
+                  </p>
+                )}
               </div>
               <button
                 type="submit"
+                disabled={formStatus === 'submitting' || formStatus === 'success' || formStatus === 'error'}
                 style={{
                   padding: '14px 24px', borderRadius: '8px',
-                  background: 'linear-gradient(135deg, var(--purple-600), var(--violet-500))',
+                  background: formStatus === 'success' ? 'linear-gradient(135deg, #22c55e, #16a34a)' : 
+                           formStatus === 'error' ? 'linear-gradient(135deg, #ef4444, #dc2626)' :
+                           'linear-gradient(135deg, var(--purple-600), var(--violet-500))',
                   color: 'white', fontSize: '16px', fontWeight: 500,
-                  border: 'none', cursor: 'pointer',
+                  border: 'none', cursor: formStatus === 'submitting' ? 'not-allowed' : 'pointer',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
                   transition: 'all var(--transition-med)',
-                  boxShadow: '0 4px 14px rgba(139, 92, 246, 0.3)',
+                  boxShadow: formStatus === 'success' ? '0 4px 14px rgba(34, 197, 94, 0.3)' : 
+                           formStatus === 'error' ? '0 4px 14px rgba(239, 68, 68, 0.3)' :
+                           '0 4px 14px rgba(139, 92, 246, 0.3)',
+                  opacity: formStatus === 'submitting' ? 0.7 : 1,
                 }}
                 onMouseEnter={e => {
-                  e.currentTarget.style.transform = 'translateY(-2px)'
-                  e.currentTarget.style.boxShadow = '0 8px 20px rgba(139, 92, 246, 0.4)'
+                  if (formStatus !== 'submitting' && formStatus !== 'success' && formStatus !== 'error') {
+                    e.currentTarget.style.transform = 'translateY(-2px)'
+                    e.currentTarget.style.boxShadow = '0 8px 20px rgba(139, 92, 246, 0.4)'
+                  }
                 }}
                 onMouseLeave={e => {
                   e.currentTarget.style.transform = 'translateY(0)'
-                  e.currentTarget.style.boxShadow = '0 4px 14px rgba(139, 92, 246, 0.3)'
+                  e.currentTarget.style.boxShadow = formStatus === 'success' ? '0 4px 14px rgba(34, 197, 94, 0.3)' : 
+                           formStatus === 'error' ? '0 4px 14px rgba(239, 68, 68, 0.3)' :
+                           '0 4px 14px rgba(139, 92, 246, 0.3)'
                 }}
               >
-                <Send style={{ width: '20px', height: '20px' }} />
-                Send Message
+                {formStatus === 'submitting' ? (
+                  <>
+                    <Send style={{ width: '20px', height: '20px', animation: 'spin 1s linear infinite' }} />
+                    Sending...
+                  </>
+                ) : formStatus === 'success' ? (
+                  <>
+                    <CheckCircle2 style={{ width: '20px', height: '20px' }} />
+                    Message Sent!
+                  </>
+                ) : formStatus === 'error' ? (
+                  <>
+                    <AlertCircle style={{ width: '20px', height: '20px' }} />
+                    Failed - Try Again
+                  </>
+                ) : (
+                  <>
+                    <Send style={{ width: '20px', height: '20px' }} />
+                    Send Message
+                  </>
+                )}
               </button>
             </form>
           </div>
@@ -297,6 +412,13 @@ const Contact = () => {
           </div>
         </div>
       </div>
+
+      <style>{`
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
     </section>
   );
 };

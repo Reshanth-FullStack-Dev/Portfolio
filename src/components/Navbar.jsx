@@ -8,7 +8,21 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40)
+    const onScroll = () => {
+      setScrolled(window.scrollY > 40)
+
+      // Update active section based on scroll position
+      const sections = navLinks.map(link => document.getElementById(link.toLowerCase()))
+      const scrollPosition = window.scrollY + 150
+
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = sections[i]
+        if (section && section.offsetTop <= scrollPosition) {
+          setActive(navLinks[i])
+          break
+        }
+      }
+    }
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
