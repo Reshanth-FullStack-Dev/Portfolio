@@ -1,17 +1,28 @@
 import React from 'react'
-import { Building2, GraduationCap, HeartPulse, MapPinned, PackageCheck, Users, ExternalLink } from 'lucide-react'
+import { Building2, GraduationCap, HeartPulse, MapPinned, PackageCheck, Users, ExternalLink, Home } from 'lucide-react'
 import { useScrollAnimationMultiple } from '../hooks/useScrollAnimation'
 
 const projectLinks = {
-  'TNFD': 'https://tnfd.devops-in22labs.com/',
-  'Nurture': 'https://nurturelife.io/',
-  'PickupDrop': 'http://axiommobility.com/',
-  'KEC Inventory': 'https://uatshop.kenmonthenginecompany.com/login',
-  '11Systems': 'https://11systems.health/',
-  'Swim School': 'http://uat.web.swimschoolpro.com/',
+  'MyHabitat': '#',
+  'TNFD': '#',
+  'Nurture': '#',
+  'PickupDrop': '#',
+  'KEC Inventory': '#',
+  '11Systems': '#',
+  'Swim School': '#',
 }
 
 const projects = [
+  {
+    title: 'MyHabitat',
+    subtitle: 'Smart Condo Management Platform',
+    metric: '350+ organizations',
+    tech: ['React.js', 'Node.js', 'PostgreSQL', 'Docker', 'Socket.io'],
+    description: 'Architected a multi-tenant SaaS platform for condominium management with isolated databases, real-time chat, LPR/ANPR system, and payment integrations.',
+    features: ['Multi-tenant SaaS with data isolation', 'Real-time chat with end-to-end encryption', 'LPR/ANPR system with Docker edge computing', 'WebSocket security dashboard', 'Stripe multi-currency payments'],
+    icon: Home,
+    color: 'cyan',
+  },
   {
     title: 'TNFD',
     subtitle: 'Government Workflow Platform',
@@ -20,7 +31,7 @@ const projects = [
     description: 'Digitized a Tamil Nadu Forest Department workflow with multi-role login and application processing for department-wide use.',
     features: ['Multi-role authentication', 'Application workflow processing', 'Controlled staff access'],
     icon: Building2,
-    color: 'cyan',
+    color: 'purple',
   },
   {
     title: 'Swim School',
@@ -75,12 +86,13 @@ const projects = [
 ]
 
 const colors = {
-  cyan: { text: 'var(--cyan-300)', bg: 'rgba(45,212,191,0.1)', border: 'rgba(45,212,191,0.25)' },
-  amber: { text: 'var(--amber-300)', bg: 'rgba(245,158,11,0.1)', border: 'rgba(245,158,11,0.25)' },
-  purple: { text: 'var(--purple-300)', bg: 'rgba(139,92,246,0.1)', border: 'rgba(139,92,246,0.25)' },
-  green: { text: '#86efac', bg: 'rgba(34,197,94,0.1)', border: 'rgba(34,197,94,0.24)' },
-  orange: { text: '#fdba74', bg: 'rgba(249,115,22,0.1)', border: 'rgba(249,115,22,0.24)' },
-  pink: { text: 'var(--pink-400)', bg: 'rgba(236,72,153,0.1)', border: 'rgba(236,72,153,0.24)' },
+  cyan: { text: 'var(--cyan-300)', bg: 'rgba(45,212,191,0.1)', border: 'rgba(45,212,191,0.25)', glow: 'rgba(45,212,191,0.16)' },
+  teal: { text: '#5eead4', bg: 'rgba(20,184,166,0.1)', border: 'rgba(20,184,166,0.25)', glow: 'rgba(20,184,166,0.16)' },
+  amber: { text: 'var(--amber-300)', bg: 'rgba(245,158,11,0.1)', border: 'rgba(245,158,11,0.25)', glow: 'rgba(245,158,11,0.16)' },
+  purple: { text: 'var(--purple-300)', bg: 'rgba(139,92,246,0.1)', border: 'rgba(139,92,246,0.25)', glow: 'rgba(139,92,246,0.16)' },
+  green: { text: '#86efac', bg: 'rgba(34,197,94,0.1)', border: 'rgba(34,197,94,0.24)', glow: 'rgba(34,197,94,0.16)' },
+  orange: { text: '#fdba74', bg: 'rgba(249,115,22,0.1)', border: 'rgba(249,115,22,0.24)', glow: 'rgba(249,115,22,0.16)' },
+  pink: { text: 'var(--pink-400)', bg: 'rgba(236,72,153,0.1)', border: 'rgba(236,72,153,0.24)', glow: 'rgba(236,72,153,0.16)' },
 }
 
 export default function Projects() {
@@ -139,7 +151,7 @@ export default function Projects() {
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = tone.border
                   e.currentTarget.style.transform = 'translateY(-8px) scale(1.02)'
-                  e.currentTarget.style.boxShadow = `0 20px 50px ${tone.glow}, 0 0 30px ${tone.glow}`
+                  e.currentTarget.style.boxShadow = `0 20px 50px ${tone.glow || tone.bg}, 0 0 30px ${tone.glow || tone.bg}`
                   e.currentTarget.style.background = `rgba(28, 24, 56, 0.9)`
                 }}
                 onMouseLeave={(e) => {
@@ -216,32 +228,47 @@ export default function Projects() {
                   ))}
                 </div>
 
-                <a
-                  href={projectLinks[project.title]}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    marginTop: 'auto', width: '100%', padding: '10px 12px', borderRadius: '10px',
-                    background: 'rgba(255,255,255,0.035)', color: tone.text,
-                    fontSize: '14px', fontWeight: 700, border: `1px solid ${tone.border}`,
-                    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
-                    textDecoration: 'none',
-                    transition: 'all 0.3s ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = tone.text
-                    e.currentTarget.style.color = 'var(--bg-void)'
-                    e.currentTarget.style.transform = 'translateY(-2px)'
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'rgba(255,255,255,0.035)'
-                    e.currentTarget.style.color = tone.text
-                    e.currentTarget.style.transform = 'translateY(0)'
-                  }}
-                >
-                  <ExternalLink style={{ width: '16px', height: '16px' }} />
-                  View Project
-                </a>
+                {projectLinks[project.title] && projectLinks[project.title] !== '#' ? (
+                  <a
+                    href={projectLinks[project.title]}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      marginTop: 'auto', width: '100%', padding: '10px 12px', borderRadius: '10px',
+                      background: 'rgba(255,255,255,0.035)', color: tone.text,
+                      fontSize: '14px', fontWeight: 700, border: `1px solid ${tone.border}`,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+                      textDecoration: 'none',
+                      transition: 'all 0.3s ease',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = tone.text
+                      e.currentTarget.style.color = 'var(--bg-void)'
+                      e.currentTarget.style.transform = 'translateY(-2px)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'rgba(255,255,255,0.035)'
+                      e.currentTarget.style.color = tone.text
+                      e.currentTarget.style.transform = 'translateY(0)'
+                    }}
+                  >
+                    <ExternalLink style={{ width: '16px', height: '16px' }} />
+                    View Project
+                  </a>
+                ) : (
+                  <div
+                    style={{
+                      marginTop: 'auto', width: '100%', padding: '10px 12px', borderRadius: '10px',
+                      background: 'rgba(255,255,255,0.02)', color: 'var(--text-muted)',
+                      fontSize: '14px', fontWeight: 500, border: `1px solid var(--border-subtle)`,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
+                      cursor: 'default',
+                    }}
+                  >
+                    <span style={{ fontSize: '12px' }}>🔒</span>
+                    Private Project
+                  </div>
+                )}
               </article>
             )
           })}

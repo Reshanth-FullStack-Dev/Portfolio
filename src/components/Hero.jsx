@@ -2,17 +2,18 @@ import { useEffect, useRef, useState } from 'react'
 import { ArrowDown, Mail, Phone, ExternalLink, Database, RadioTower, ShieldCheck } from 'lucide-react'
 
 const roles = [
+  'Software Engineer - Full Stack Developer',
   'React.js + Node.js Developer',
   'Laravel Full Stack Developer',
+  'Multi-Tenant SaaS Architect',
   'Real-Time Systems Builder',
-  'Multi-Tenant SaaS Engineer',
   'REST API Specialist',
 ]
 
 const impactStats = [
-  { value: '3', label: 'Years experience' },
-  { value: '10K+', label: 'Govt. users' },
-  { value: '650+', label: 'Live deliveries' },
+  { value: '2.5+', label: 'Years experience' },
+  { value: '350+', label: 'Client organizations' },
+  { value: '10K+', label: 'Government users' },
 ]
 
 const domainCards = [
@@ -129,7 +130,7 @@ export default function Hero() {
 
       <div className="hero-shell">
         <div className="hero-copy">
-          <div className="eyebrow">Full Stack Developer - React.js, Node.js, Laravel</div>
+          <div className="eyebrow">Software Engineer - Full Stack Developer - React.js • Node.js • Laravel • PHP • PostgreSQL • MySQL</div>
 
           <h1>Reshanth A</h1>
 
@@ -168,6 +169,11 @@ export default function Hero() {
 
         <aside className="hero-panel" aria-label="Core strengths">
           <div className="availability-card">
+            <span>Based in</span>
+            <strong>Coimbatore, India</strong>
+          </div>
+
+          <div className="availability-card">
             <span>Available for</span>
             <strong>Frontend, Backend, and Full Stack roles</strong>
           </div>
@@ -186,7 +192,7 @@ export default function Hero() {
 
           <div className="hero-socials">
             {[
-              { label: 'LinkedIn', href: 'https://www.linkedin.com/in/reshanth-a-551559251/', icon: ExternalLink },
+              { label: 'LinkedIn', href: 'https://www.linkedin.com/in/reshanth-fullstack-developer/', icon: ExternalLink },
               { label: 'Email', href: 'mailto:reshiarumugam02@gmail.com', icon: Mail },
               { label: 'Phone', href: 'tel:+916382946217', icon: Phone },
             ].map(({ label, href, icon: Icon }) => (

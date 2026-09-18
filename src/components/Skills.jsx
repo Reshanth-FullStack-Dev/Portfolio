@@ -1,60 +1,78 @@
 import React from 'react'
-import { Code2, Database, Globe2, Server, ShieldCheck, ShoppingCart, RadioTower, Bot, GitBranch } from 'lucide-react'
+import { Code2, Database, Globe2, Server, ShieldCheck, ShoppingCart, RadioTower, Bot, GitBranch, Layers, CreditCard, Target } from 'lucide-react'
 import { useScrollAnimationMultiple } from '../hooks/useScrollAnimation'
 
 const skillCategories = [
   {
     title: 'Languages',
     icon: Code2,
-    skills: ['JavaScript', 'PHP', 'HTML5', 'CSS3'],
+    skills: ['JavaScript', 'TypeScript', 'PHP', 'HTML5', 'CSS3', 'Shell/Bash'],
     color: 'cyan',
   },
   {
     title: 'Frontend',
     icon: Globe2,
-    skills: ['React.js', 'Redux', 'Angular', 'Bootstrap', 'jQuery'],
+    skills: ['React.js', 'Redux', 'Context API', 'React Hooks', 'Angular', 'AngularJS', 'Bootstrap', 'jQuery', 'Tailwind CSS', 'Next.js'],
     color: 'purple',
   },
   {
     title: 'Backend',
     icon: Server,
-    skills: ['Node.js', 'Express.js', 'Laravel', 'REST APIs'],
+    skills: ['Node.js', 'Express.js', 'Laravel', 'REST APIs', 'API Development', 'API Integration', 'ORM (Eloquent, Sequelize)'],
     color: 'green',
   },
   {
     title: 'Databases',
     icon: Database,
-    skills: ['PostgreSQL', 'MySQL', 'Redis'],
+    skills: ['PostgreSQL', 'MySQL', 'SQL', 'Redis', 'Database Design'],
     color: 'amber',
   },
   {
-    title: 'Real-Time and Messaging',
-    icon: RadioTower,
-    skills: ['Socket.io', 'Firebase Cloud Messaging', 'APNs', 'Live Tracking'],
-    color: 'orange',
-  },
-  {
-    title: 'APIs and Security',
-    icon: ShieldCheck,
-    skills: ['Authentication', 'Authorization', 'RBAC', 'Secure API Design'],
-    color: 'pink',
-  },
-  {
-    title: 'DevOps and Deployment',
-    icon: GitBranch,
-    skills: ['Git', 'Linux Administration', 'cPanel', 'CI/CD Fundamentals'],
+    title: 'Architecture',
+    icon: Layers,
+    skills: ['Multi-tenant SaaS', 'Microservices', 'Edge Computing', 'MVC', 'OOP'],
     color: 'blue',
   },
   {
-    title: 'E-Commerce and CMS',
+    title: 'Real-Time & Messaging',
+    icon: RadioTower,
+    skills: ['Socket.io', 'WebSocket', 'WebRTC', 'FCM', 'APNs', 'Twilio WhatsApp API'],
+    color: 'orange',
+  },
+  {
+    title: 'APIs & Security',
+    icon: ShieldCheck,
+    skills: ['RESTful API Design', 'Swagger/OpenAPI', 'JWT Auth', 'RBAC', 'CORS', 'Data Encryption', 'WebSocket Security'],
+    color: 'pink',
+  },
+  {
+    title: 'Payments',
+    icon: CreditCard,
+    skills: ['Stripe', 'PayPal', 'Multi-currency Processing', 'Webhook Handling'],
+    color: 'green',
+  },
+  {
+    title: 'Development Practices',
+    icon: Target,
+    skills: ['Agile', 'Scrum', 'Sprint Planning', 'Task Estimation', 'Jira', 'SDLC', 'Unit Testing', 'Performance Optimization', 'Postman', 'Vite', 'NPM', 'Jest', 'Mocha'],
+    color: 'blue',
+  },
+  {
+    title: 'DevOps & Deployment',
+    icon: GitBranch,
+    skills: ['Docker', 'Nginx', 'PM2', 'Git', 'GitHub', 'Bitbucket', 'Source Tree', 'Linux Admin', 'cPanel', 'CI/CD'],
+    color: 'indigo',
+  },
+  {
+    title: 'E-Commerce & CMS',
     icon: ShoppingCart,
     skills: ['Shopify', 'Zoho Commerce', 'WordPress'],
-    color: 'indigo',
+    color: 'purple',
   },
   {
     title: 'AI-Assisted Development',
     icon: Bot,
-    skills: ['Cursor', 'Windsurf', 'GitHub Copilot', 'Amazon Q', 'Codex', 'Claude'],
+    skills: ['Cursor', 'Windsurf', 'GitHub Copilot', 'Amazon Q', 'Codex', 'Claude', 'ChatGPT', 'Devin'],
     color: 'cyan',
   },
 ]
@@ -68,6 +86,7 @@ const colors = {
   pink: { bg: 'rgba(236,72,153,0.1)', text: 'var(--pink-400)', border: 'rgba(236,72,153,0.28)', glow: 'rgba(236,72,153,0.16)' },
   blue: { bg: 'rgba(96,165,250,0.1)', text: '#93c5fd', border: 'rgba(96,165,250,0.28)', glow: 'rgba(96,165,250,0.16)' },
   indigo: { bg: 'rgba(129,140,248,0.1)', text: '#a5b4fc', border: 'rgba(129,140,248,0.28)', glow: 'rgba(129,140,248,0.16)' },
+  rose: { bg: 'rgba(244,63,94,0.1)', text: '#fda4af', border: 'rgba(244,63,94,0.28)', glow: 'rgba(244,63,94,0.16)' },
 }
 
 export default function Skills() {
@@ -104,7 +123,7 @@ export default function Skills() {
           A practical stack for owning product features from schema design and APIs through polished user interfaces and deployment.
         </p>
 
-        <div className="skills-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '18px' }}>
+        <div className="skills-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '18px' }}>
           {skillCategories.map((category, index) => {
             const tone = colors[category.color]
             const Icon = category.icon

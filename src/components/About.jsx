@@ -3,17 +3,19 @@ import { useScrollAnimation, useScrollAnimationMultiple } from '../hooks/useScro
 import reshanthImage from '../assets/Reshanth.jpg'
 
 const stats = [
-  { value: '3', label: 'Years Experience' },
-  { value: '80+', label: 'SaaS Client Portals' },
+  { value: '2.5+', label: 'Years Experience' },
+  { value: '350+', label: 'Client Organizations' },
   { value: '10+', label: 'Live Deployments' },
-  { value: '5+', label: 'Commerce/CMS Clients' },
+  { value: '10K+', label: 'Government Users' },
 ]
 
 const ownershipPoints = [
-  'Database design through deployment ownership',
-  'Secure REST APIs and role-based authorization',
-  'Real-time tracking, chat, calls, and notifications',
-  'AI-assisted debugging, development, and code review',
+  'Multi-tenant SaaS architecture with data isolation',
+  'Secure REST APIs with JWT authentication and RBAC',
+  'Real-time systems using Socket.io, WebSocket, and push notifications',
+  'Payment integrations (Stripe, PayPal) with webhook handling',
+  'Docker-based edge computing and deployment solutions',
+  'AI-assisted development and code review workflows',
 ]
 
 export default function About() {
@@ -116,19 +118,17 @@ export default function About() {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '26px' }}>
             <p style={{ fontSize: '15px', color: 'var(--text-secondary)', lineHeight: 1.85, fontWeight: 300 }}>
-              I am a Full Stack Developer with 3 years of experience delivering production
-              applications in healthcare, logistics, government, SaaS, inventory, and commerce.
-              My core stack is React.js, Node.js, Laravel, PHP, PostgreSQL, and MySQL.
+              I am a Full Stack Developer with 2.5+ years of professional experience building and deploying production web applications using React.js, Node.js, Express.js, Laravel, PHP, PostgreSQL, MySQL, AngularJs, and Redis.
             </p>
             <p style={{ fontSize: '15px', color: 'var(--text-secondary)', lineHeight: 1.85, fontWeight: 300 }}>
-              Recent work includes a Tamil Nadu Forest Department workflow platform used by
-              10000+ staff, a multi-tenant swim school SaaS with 80+ client organizations,
-              real-time logistics tracking for 650+ concurrent deliveries, and hospital portals
-              with appointment scheduling and secure RBAC.
+              Experienced in developing scalable multi-tenant SaaS platforms, secure REST APIs, role-based authentication, real-time systems using Socket.io/WebSocket, payment integrations, and Docker-based edge computing solutions.
+            </p>
+            <p style={{ fontSize: '15px', color: 'var(--text-secondary)', lineHeight: 1.85, fontWeight: 300 }}>
+              Delivered applications across healthcare, logistics, government, proptech, and e-commerce domains, with experience owning features end-to-end from database design and API development through deployment and production support.
             </p>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }} className="ownership-grid">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }} className="ownership-grid">
             {ownershipPoints.map((point, index) => (
               <div
                 key={point}

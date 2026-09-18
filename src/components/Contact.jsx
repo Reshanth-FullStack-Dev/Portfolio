@@ -26,7 +26,7 @@ const Contact = () => {
       icon: <Mail className="w-5 h-5" />,
       label: "LinkedIn",
       value: "linkedin.com/in/reshanth-a-551559251",
-      href: "https://www.linkedin.com/in/reshanth-a-551559251/"
+      href: "https://www.linkedin.com/in/reshanth-fullstack-developer/"
     }
   ];
 

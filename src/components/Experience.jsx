@@ -6,32 +6,42 @@ const experience = [
     company: 'Agnitio Systems',
     period: 'Mar 2024 - Present',
     current: true,
-    summary: 'Owns full stack delivery for Laravel, React.js, Node.js, and Angular applications across government, healthcare, logistics, SaaS, inventory, and commerce workflows.',
+    summary: 'Full Stack Developer with 2.5+ years of experience building production web applications across healthcare, logistics, government, proptech, and e-commerce domains. Experienced in multi-tenant SaaS platforms, secure REST APIs, real-time systems, payment integrations, and Docker-based edge computing.',
     projects: [
       {
-        name: 'TNFD - Government Workflow Platform',
-        stack: 'Laravel',
-        points: ['Digitized application processing for the Tamil Nadu Forest Department', 'Built multi-role login and workflow handling for 10000+ department staff'],
+        name: 'MyHabitat — Smart Condo Management Platform',
+        stack: 'React.js, Node.js, PostgreSQL, Docker',
+        points: ['Architected multi-tenant SaaS platform with isolated PostgreSQL databases per organization, scaling to 350+ client organizations', 'Built real-time chat system using Socket.io with end-to-end encryption for resident–staff communication', 'Engineered LPR/ANPR system supporting Hikvision and Dahua cameras with Docker-containerized edge gateways', 'Implemented WebSocket-based security dashboard for live gate, vehicle, and LPR monitoring', 'Enforced RBAC across 10+ user roles with JWT authentication and Stripe multi-currency payment processing'],
       },
       {
-        name: 'Swim School - Multi-Tenant SaaS',
-        stack: 'Laravel',
-        points: ['Architected isolated client portals with separate databases', 'Scaled tenancy model to 80+ client organizations with controlled data separation'],
+        name: 'TNFD — Government Workflow Platform',
+        stack: 'Laravel, PHP',
+        points: ['Launched multi-role login and application-processing platform for Tamil Nadu Forest Department', 'Digitized previously manual workflow used by 10000+ department staff', 'Implemented role-based authentication, application workflows, validation, and administrative modules'],
       },
       {
-        name: 'PickupDrop - Logistics Platform',
+        name: 'Swim School — Multi-Tenant SaaS',
+        stack: 'Laravel, PHP',
+        points: ['Architected multi-tenant system with Super Admin provisioning isolated client portals and separate databases', 'Scaled to 80+ client organizations without cross-tenant data leakage', 'Created modules for students, coaches, programs, levels, skills, and attendance with RBAC across 4+ user roles'],
+      },
+      {
+        name: 'PickupDrop — Logistics Platform',
         stack: 'React.js, Node.js, Express.js',
-        points: ['Built live driver-customer tracking using Socket.io for 650+ concurrent deliveries', 'Shipped chat, voice calling, secure REST APIs, and FCM/APNs notifications'],
+        points: ['Engineered real-time task assignment and live driver–customer tracking using Socket.io', 'Enabled dispatch teams to monitor 650+ concurrent deliveries with sub-second location updates', 'Integrated in-app chat, voice calling, and FCM/APNs push notifications to reduce missed pickup events', 'Designed and shipped secure REST APIs powering admin dashboard and driver mobile app'],
       },
       {
-        name: 'Nurture and 11Systems - Healthcare Portals',
-        stack: 'React.js, Angular, Node.js',
-        points: ['Developed Physician, Patient, and Admin portals with appointment workflows', 'Implemented RBAC, real-time communication, monitoring, chat, and video consultation features'],
+        name: 'Nurture — Hospital Management System',
+        stack: 'React.js, Node.js',
+        points: ['Built Physician, Patient, and Admin portals with automated appointment scheduling and role-based workflows', 'Streamlined patient-doctor coordination with real-time communication and improved operational efficiency', 'Integrated Twilio WhatsApp Business API for parent and child profile creation via WhatsApp', 'Applied secure RBAC and REST APIs for tailored user experiences with controlled data access'],
       },
       {
-        name: 'KEC Inventory and Client Platforms',
-        stack: 'Laravel, WordPress, Shopify, Zoho Commerce',
-        points: ['Delivered inventory and order modules serving 5000+ users with live stock visibility', 'Maintained Linux/cPanel deployments, domains, and databases for 10+ live projects'],
+        name: '11Systems — Healthcare Portal',
+        stack: 'Angular, Node.js',
+        points: ['Led development of Physician, Patient, and Admin portals with appointment management and patient monitoring', 'Implemented chat, video consultation features supporting 500+ active users'],
+      },
+      {
+        name: 'KEC Inventory — Inventory & Order Management',
+        stack: 'Laravel, PHP',
+        points: ['Developed Admin and Customer modules for inventory tracking, stock management, and order processing', 'Supported 5,000+ users with real-time inventory visibility'],
       },
     ],
   },
@@ -42,15 +52,22 @@ const education = [
     degree: 'B.E., Computer Science & Engineering',
     institution: 'Karpagam College of Engineering',
     period: '2020 - 2024',
-    grade: '8.56 / 10',
+    grade: '8.56 / 10 (First Class with Distinction)',
   },
 ]
 
 const professionalSkills = [
   'Cross-functional collaboration',
-  'Analytical debugging',
-  'Ownership and accountability',
+  'Analytical problem solving & debugging',
+  'Ownership & accountability',
   'Adaptability under changing requirements',
+]
+
+const otherContributions = [
+  'Deployed and maintained production applications on Linux servers via cPanel for 10+ live projects',
+  'Containerized and deployed edge computing services using Docker for on-site camera and LPR processing',
+  'Customized and managed WordPress and Shopify/Zoho Commerce storefronts for 5+ clients',
+  'Used AI-assisted coding tools (Cursor, Windsurf, GitHub Copilot, Amazon Q, Codex, Claude, ChatGPT, Devin) to speed up development',
 ]
 
 export default function Experience() {
@@ -224,7 +241,7 @@ export default function Experience() {
                     fontSize: '12px', padding: '5px 12px', borderRadius: '999px',
                     background: 'rgba(245,158,11,0.1)', color: 'var(--amber-300)',
                     border: '1px solid rgba(245,158,11,0.2)',
-                  }}>CGPA: {edu.grade}</span>
+                  }}>{edu.grade}</span>
                 </div>
               </div>
             ))}
@@ -268,6 +285,37 @@ export default function Experience() {
                   >{skill}</span>
                 ))}
               </div>
+            </div>
+
+            <div style={{
+              background: 'var(--bg-card)', border: '1px solid var(--border-subtle)',
+              borderRadius: '8px', padding: '24px',
+              transition: 'all 0.3s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = 'var(--border-medium)'
+              e.currentTarget.style.transform = 'translateY(-4px)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = 'var(--border-subtle)'
+              e.currentTarget.style.transform = 'translateY(0)'
+            }}
+            >
+              <h3 style={{
+                fontFamily: 'var(--font-display)', fontSize: '18px', fontWeight: 700,
+                color: 'var(--text-primary)', marginBottom: '16px',
+              }}>Other Contributions</h3>
+              <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                {otherContributions.map((contribution) => (
+                  <li key={contribution} style={{
+                    fontSize: '13px', color: 'var(--text-secondary)',
+                    display: 'flex', alignItems: 'flex-start', gap: '8px', lineHeight: 1.5,
+                  }}>
+                    <span style={{ color: 'var(--cyan-300)', marginTop: '1px', flexShrink: 0 }}>•</span>
+                    {contribution}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
